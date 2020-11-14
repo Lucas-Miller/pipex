@@ -25,7 +25,7 @@ int main(int ac , char **av)
     }
 
     if (pipe(pipex) == -1)
-        errorHandler("Unable to get a pipe", 1);
+        errorHandler("Unable to get pipe", 1);
     
     //creating two new processes
     if( (pidOne = fork()) == -1)
@@ -44,7 +44,7 @@ int main(int ac , char **av)
         if( (pidTwo = fork()) == -1)
             errorHandler("Cannot fork", 2);
     
-        if (pidOne > 0) {   /* Parent executes av[2] */
+        if (pidTwo > 0) {   /* Parent executes av[2] */
             if(dup2(pipex[1], 1) == -1)
                 errorHandler("Could not redirect std in", 3);
         
@@ -54,9 +54,9 @@ int main(int ac , char **av)
         }
     }
 
-    close(pipex[0]);
 
-    if(dup2(pipex[1], 0) == -1)
+
+    if(dup2(pipex[0], 0) == -1)
         errorHandler("Could not redirect std out", 4);
         
     close(pipex[0]); 
