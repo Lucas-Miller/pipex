@@ -47,7 +47,7 @@ int main(int ac , char **av)
     
         if (pidOne > 0) {   /* Parent executes av[2] */
         close(pipex[1]);/* Parent doesnt write to pipe */
-        if(dup2(pipex[1], 1) == -1)
+        if(dup2(pipex[0], 0) == -1)
             errorHandler("Could not redirect std in", 3);
         
         close(pipex[0]); /* stdin is duplicated so we close pipe */
@@ -57,7 +57,7 @@ int main(int ac , char **av)
     close(pipex[0]);
 
     if(dup2(pipex[1], 1) == -1)
-        errorHandler("Could not redirect std out", 4);
+        errorHandler("Could not redirect std in", 4);
         
     close(pipex[0]); /* stdin is duplicated so we close pipe */
     execlp(av[1], av[1], NULL);
