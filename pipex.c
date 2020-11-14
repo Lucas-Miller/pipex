@@ -56,7 +56,7 @@ int main(int ac , char **av)
     }
     close(pipex[0]);
 
-    if(dup2(pipex[1], 0) == -1)
+    if(dup2(pipex[2], 0) == -1)
         errorHandler("Could not redirect std out", 4);
         
     close(pipex[0]); /* stdin is duplicated so we close pipe */
