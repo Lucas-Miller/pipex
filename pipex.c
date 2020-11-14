@@ -16,7 +16,7 @@ int main(int ac , char **av)
 {
     int pipex[3]; //File descriptors
     //int newfd;
-    int pid;
+    int pidOne, pidTwo;
 
     if (ac != 4)
     {
@@ -28,10 +28,14 @@ int main(int ac , char **av)
         errorHandler("Unable to get a pipe", 1);
     
     //creating two new processes
-    if( (pid = fork()) == -1)
+    if( (pidOne = fork()) == -1)
+        errorHandler("Cannot fork", 2);
+    
+    if( (pidTwo = fork()) == -1)
         errorHandler("Cannot fork", 2);
 
-    if (pid > 0) {
+
+    if (pidOne > 0 && pidTwo > 0) {
         close(pipex[1]);
         if(dup2(pipex[0], 0) == -1)
             errorHandler("Could not redirect std output", 4);
